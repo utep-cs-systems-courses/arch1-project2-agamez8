@@ -1,8 +1,8 @@
 #include <msp430.h>
 #include "libTimer.h"
 
-#define LED_RED BIT0               // P1.0
-#define LED_GREEN BIT6             // P1.6
+#define LED_RED BIT6               // P1.6
+#define LED_GREEN BIT0             // P1.0
 #define LEDS (BIT0 | BIT6)
 
 #define SW1 BIT3		/* switch1 is p1.3 */
@@ -23,6 +23,9 @@ void main(void)
   or_sr(0x18);  // CPU off, GIE on
 } 
 
+static int press;
+static int state;
+
 void
 switch_interrupt_handler()
 {
@@ -34,11 +37,33 @@ switch_interrupt_handler()
 
 /* up=red, down=green */
   if (p1val & SW1) {
-    P1OUT |= LED_RED;
-    P1OUT &= ~LED_GREEN;
+    press = 1;
+    //P1OUT |= LED_RED;
+    //P1OUT &= ~LED_GREEN;
   } else {
-    P1OUT |= LED_GREEN;
-    P1OUT &= ~LED_RED;
+    press = 0;
+    //P1OUT |= LED_GREEN;
+    //P1OUT &= ~LED_RED;
+  }
+
+  if (press)
+  {
+    switch (state)
+    {
+    case 0:
+      P1OUT |= LED_GREEN;
+      P1OUT &= ~LED_RED;
+      state = 1;
+      break;
+    case 1:
+      P1OUT |= LED_RED;
+      P1OUT &= ~LED_GREEN;
+      state = 0;
+      break;
+    default:
+      state = 0;
+      P1OUT |= LEDS;
+    }
   }
 }
 
