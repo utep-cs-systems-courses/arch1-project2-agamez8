@@ -3,5 +3,7 @@
 
 void buzzer_init();
 void buzzer_set_period(short cycles);
+void buzzer_off();
+void starwars_song();
 
-#endif
+#endif // included

@@ -37,11 +37,11 @@ switch_interrupt_handler()
 
 /* up=red, down=green */
   if (p1val & SW1) {
-    state = 1;
+    press = 1;
     //P1OUT |= LED_RED;
     //P1OUT &= ~LED_GREEN;
   } else {
-    state = 0;
+    press = 0;
     //P1OUT |= LED_GREEN;
     //P1OUT &= ~LED_RED;
   }
