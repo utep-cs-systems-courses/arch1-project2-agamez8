@@ -11,7 +11,7 @@ void buzzer_init()
        P2SEL.6 must be 1
        Also: P2.6 direction must be output
   */
-  
+
   timerAUpmode(); /* used to drive speaker */
   P2SEL2 &= ~(BIT6 | BIT7);
   P2SEL &= ~BIT7;
@@ -32,51 +32,50 @@ void buzzer_off()
 }
 
 static int note_count = 0;
-
 void starwars_song() // Plays Star Wars theme by John Williams
 {
   switch (note_count)
-  {
-  case 0:
-    buzzer_set_period(950);
-    note_count++;
-    break; // Lower C note
-  case 1:
-  case 6:
-  case 11:
-    buzzer_set_period(630);
-    note_count++;
-    break; // G note
-  case 2:
-  case 7:
-  case 12:
-  case 14:
-    buzzer_set_period(710);
-    note_count++;
-    break; // F note
-  case 3:
-  case 8:
-  case 13:
-    buzzer_set_period(750);
-    note_count++;
-    break; // E note
-  case 4:
-  case 9:
-  case 15:
-    buzzer_set_period(840);
-    if (note_count == 15)
     {
-      note_count = 0;
-    }
-    else
-    {
+    case 0:
+      buzzer_set_period(950); // C note
       note_count++;
+      break;
+    case 1:
+    case 6:
+    case 11:
+      buzzer_set_period(630); // G note
+      note_count++;
+      break;
+    case 2:
+    case 7:
+    case 12:
+    case 14:
+      buzzer_set_period(710); // F note
+      note_count++;
+      break;
+    case 3:
+    case 8:
+    case 13:
+      buzzer_set_period(750); // E note
+      note_count++;
+      break;
+    case 4:
+    case 9:
+    case 15:
+      buzzer_set_period(840); // D note
+      if (note_count == 15) // last note
+	{
+	  note_count = 0; // restart song when all notes are played
+	}
+      else
+	{
+	  note_count++; 
+	}
+      break;
+    case 5:
+    case 10:
+      buzzer_set_period(475); // C note
+      note_count++;
+      break;
     }
-    break; // D note
-  case 5:
-  case 10:
-    buzzer_set_period(475);
-    note_count++;
-    break; // C note
-  }
 }
